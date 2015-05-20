@@ -3,7 +3,7 @@
     Implements the Artifical Intelligence of the computer controlled snake by
     providing a function that determines the computer's next move based on the
     current game state.
-    
+
     The AI's goal is simply to find the shortest path to the nearest food, and to
     then follow that path.  If food is inaccessible, then the AI's goal is to avoid
     hitting walls.
@@ -32,31 +32,7 @@ void find_food(board * cur_board, int * distance_map, int row, int col,
     search is going to produce the same or worse results)
 */
 {
-    int *ptr = distance_map+col+(cur_board->cols*row);
-
-    if(row >= 0 && row < cur_board->rows && col >= 0 && cur_board->cols > col)
-    {
-        if( *(board_cell(cur_board, row, col)) == CELL_OPEN || *(board_cell(cur_board, row, col)) == CELL_FOOD )
-	{
-	
-	    if( distance < *ptr )
-	    {
-	
-		*ptr = distance++;		
-		
-		if( *(board_cell(cur_board, row, col)) == CELL_FOOD && *ptr < *closest_distance )
-		{
-			*closest_distance = *ptr;
-		}
-	 
-		find_food(cur_board, distance_map,row+1 ,col, distance, closest_distance);
-		find_food(cur_board, distance_map,row-1,col, distance, closest_distance);
-		find_food(cur_board, distance_map,row,col+1, distance, closest_distance);
-		find_food(cur_board, distance_map,row,col-1, distance, closest_distance);
-	    } 
-	} 
-    }   
- 
+    //Implement Me
 }
 
 int food_distance(board * cur_board, int * distance_map, int row, int col)
@@ -118,45 +94,6 @@ void ai_move(game * cur_game)
 
     If no food is found, then simply call the avoid_walls function.
 */
-{
-
-    /*get the row and col of the computer snakes head */
-
-    int row = cur_game->computer_snake->head->row;
-    int col = cur_game->computer_snake->head->col;
-
-    int *distance_map= malloc(sizeof(int)*cur_game->board->rows*cur_game->board->cols);
-  
-    int d[4];
-    int min;
-    int counter;
-   
-    d[0] = food_distance(cur_game->board, distance_map, row+1, col);
-    d[1] = food_distance(cur_game->board, distance_map, row-1, col);
-    d[2] = food_distance(cur_game->board, distance_map, row, col+1);
-    d[3] = food_distance(cur_game->board, distance_map, row, col-1);
-
-    free(distance_map);
-
-    /*find smallest distance */
-    min = d[0];
-    for(counter = 0; counter < 4; counter++)
-    {
-	if(min > d[counter] )
-	    min = d[counter];
-    }
-
-    /*find which direction to go */
-    if(min == INT_MAX)
-        avoid_walls(cur_game->board, cur_game->computer_snake);
-    else if(min == d[0])
-        cur_game->computer_snake->heading = SOUTH; 
-    else if(min == d[1])
-        cur_game->computer_snake->heading = NORTH; 
-    else if(min == d[2])
-        cur_game->computer_snake->heading = EAST; 
-    else if(min == d[3])
-	cur_game->computer_snake->heading = WEST; 
-
+{//Implement Me!
 }
 

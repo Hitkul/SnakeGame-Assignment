@@ -17,6 +17,7 @@ cell * board_cell(board * cur_board, int row, int col)
 */
 {
     /* Implement me!  */
+return (cell *)(cur_board->cells)+col+row*(cur_board->cols);
 }
 
 void randomly_add_food(board * cur_board, float probability)
@@ -31,7 +32,23 @@ void randomly_add_food(board * cur_board, float probability)
     library, in order to produce deterministic results that make bugs
     easier to track down.  (i.e. just use random without calling srandom)
 */
-{//Implement Me!
+{
+    /* get random number from 0 to RAND_MAX*/
+    long unsigned int random_number = random() % RAND_MAX;
+    int status =0;
+    /* if its less than the N*P the probability set status to 1 */
+    if(random_number < RAND_MAX*probability)
+    	status = 1;
+    /* if test passes select a random cell between 0 and (rows*cols)-1 */
+    if(status)
+    {
+ 	random_number %= ((cur_board->rows)*(cur_board->cols));
+	/*if that cell is OPEN put FOOD in it */
+	if( *(cur_board->cells+random_number) == CELL_OPEN )
+	    *(cur_board->cells+random_number) = CELL_FOOD;
+    }
+
+
 }
 
 board * create_board(int rows, int cols)
@@ -44,7 +61,12 @@ board * create_board(int rows, int cols)
     Note that the calloc function is useful for allocating and zeroing
     memory in one call (see "calloc" man page)
 */
-{//Implement Me!
+{
+    board *pBoard = malloc(sizeof(board));
+    pBoard->rows = rows;
+    pBoard->cols = cols;
+    pBoard->cells = calloc( rows*cols, sizeof(cell) );
+    return pBoard;
 }
 
 void destroy_board(board * cur_board)
@@ -98,7 +120,19 @@ void append_snake_head(snake * cur_snake, board * cur_board, int row, int col)
     functions.  Also mark the corresponding cell on the given board as being occupied
     by a snake.
 */
-{//Implement me!
+{
+    snake_segment *pSeg = malloc(sizeof(snake_segment));
+    pSeg->row = row;
+    pSeg->col = col;
+    pSeg->next = NULL;
+
+    /*previous head snake point to the new snake head */
+    cur_snake->head->next = pSeg;
+    /* set the new head */
+    cur_snake->head = pSeg;
+
+    cell *pCell = board_cell(cur_board, row, col);
+    *pCell = CELL_SNAKE;
 }
 
 void remove_snake_tail(snake * cur_snake, board * cur_board)

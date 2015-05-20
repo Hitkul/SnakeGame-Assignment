@@ -125,20 +125,21 @@ void ai_move(game * cur_game)
     int row = cur_game->computer_snake->head->row;
     int col = cur_game->computer_snake->head->col;
 
-    int *distance_map= malloc(sizeof(int)*cur_game->board->rows*cur_game->board->cols);
+   int *distance_map= malloc(sizeof(int)*cur_game->board->rows*cur_game->board->cols);
   
     int d[4];
     int min;
     int counter;
    
-    d[0] = food_distance(cur_game->board, distance_map, row+1, col);
-    d[1] = food_distance(cur_game->board, distance_map, row-1, col);
-    d[2] = food_distance(cur_game->board, distance_map, row, col+1);
-    d[3] = food_distance(cur_game->board, distance_map, row, col-1);
+   d[0] = food_distance(cur_game->board, distance_map, row+1, col);
 
-    free(distance_map);
+   d[1] = food_distance(cur_game->board, distance_map, row-1, col);
+  
+   d[2] = food_distance(cur_game->board, distance_map, row, col+1);
+   d[3] = food_distance(cur_game->board, distance_map, row, col-1);
 
-    /*find smallest distance */
+   free(distance_map);
+   /*find smallest distance */
     min = d[0];
     for(counter = 0; counter < 4; counter++)
     {
